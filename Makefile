@@ -28,6 +28,7 @@ WIN32  ?= i686-w64-mingw32
 WIN64  ?= x86_64-w64-mingw32
 DARWIN ?= x86_64-apple-darwin
 
+FORKS := 8
 
 -include /etc/lsb-release
 ifneq ($(wildcard /etc/redhat-release),)
@@ -452,8 +453,8 @@ $(OBJDIR)/%/build/riscv-gnu-toolchain/build-binutils-newlib/stamp: \
 		--disable-libreadline \
 		CFLAGS="-O2" \
 		CXXFLAGS="-O2" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-gnu-toolchain/build-gdb-newlib/stamp: \
@@ -481,8 +482,8 @@ $(OBJDIR)/%/build/riscv-gnu-toolchain/build-gdb-newlib/stamp: \
 		--disable-gprof \
 		CFLAGS="-O2" \
 		CXXFLAGS="-O2" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-gnu-toolchain/build-gdb-py-newlib/stamp: \
@@ -512,8 +513,8 @@ $(OBJDIR)/%/build/riscv-gnu-toolchain/build-gdb-py-newlib/stamp: \
 		--disable-gprof \
 		CFLAGS="-O2" \
 		CXXFLAGS="-O2" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-gnu-toolchain/build-gcc-newlib-stage1/stamp: \
@@ -551,8 +552,8 @@ $(OBJDIR)/%/build/riscv-gnu-toolchain/build-gcc-newlib-stage1/stamp: \
 		CXXFLAGS="-O2" \
 		CFLAGS_FOR_TARGET="-Os $(CFLAGS_FOR_TARGET)" \
 		CXXFLAGS_FOR_TARGET="-Os $(CXXFLAGS_FOR_TARGET)" &>make-configure.log
-	$(MAKE) -C $(dir $@) all-gcc &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install-gcc &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) all-gcc &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install-gcc &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-gnu-toolchain/build-newlib/stamp: \
@@ -572,8 +573,8 @@ $(OBJDIR)/%/build/riscv-gnu-toolchain/build-newlib/stamp: \
 		--enable-newlib-register-fini \
 		CFLAGS_FOR_TARGET="-O2 -D_POSIX_MODE $(CFLAGS_FOR_TARGET)" \
 		CXXFLAGS_FOR_TARGET="-O2 -D_POSIX_MODE $(CXXFLAGS_FOR_TARGET)" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 # These install multiple copies of the same docs into the same destination
 # for a multilib build.  So we must not parallelize them.
 # TODO: Rewrite so that we only install one copy of the docs.
@@ -604,8 +605,8 @@ $(OBJDIR)/%/build/riscv-gnu-toolchain/build-newlib-nano/stamp: \
 		--disable-nls \
 		CFLAGS_FOR_TARGET="-Os -ffunction-sections -fdata-sections $(CFLAGS_FOR_TARGET)" \
 		CXXFLAGS_FOR_TARGET="-Os -ffunction-sections -fdata-sections $(CXXFLAGS_FOR_TARGET)" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-gnu-toolchain/build-newlib-nano-install/stamp: \
@@ -681,8 +682,8 @@ $(OBJDIR)/%/build/riscv-gnu-toolchain/build-gcc-newlib-stage2/stamp: \
 		CXXFLAGS="-O2" \
 		CFLAGS_FOR_TARGET="-Os $(CFLAGS_FOR_TARGET)" \
 		CXXFLAGS_FOR_TARGET="-Os $(CXXFLAGS_FOR_TARGET)" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 # The Windows build requires the native toolchain.  The dependency is enforced
@@ -702,8 +703,8 @@ $(OBJDIR)/%/stamps/expat/install.stamp: \
 	$(eval $@_INSTALL := $(patsubst %/stamps/expat/install.stamp,%/install/riscv64-unknown-elf-gcc-$(RGT_VERSION)-$($@_TARGET),$@))
 	mkdir -p $($@_BUILD)
 	cd $($@_BUILD); ./configure --prefix=$(abspath $($@_INSTALL)) $($($@_TARGET)-expat-configure) &>make-configure.log
-	$(MAKE) -C $($@_BUILD) buildlib &>$($@_BUILD)/make-buildlib.log
-	$(MAKE) -C $($@_BUILD) installlib &>$($@_BUILD)/make-installlib.log
+	$(MAKE) -j $(FORKS) -C $($@_BUILD) buildlib &>$($@_BUILD)/make-buildlib.log
+	$(MAKE) -j $(FORKS) -C $($@_BUILD) installlib &>$($@_BUILD)/make-installlib.log
 	mkdir -p $(dir $@)
 	date > $@
 
@@ -779,8 +780,8 @@ $(OBJDIR)/%/build/riscv-gnu-gdb-only/build-binutils-newlib/stamp: \
 		--disable-libreadline \
 		CFLAGS="-O2" \
 		CXXFLAGS="-O2" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-gnu-gdb-only/build-gdb-newlib/stamp: \
@@ -808,8 +809,8 @@ $(OBJDIR)/%/build/riscv-gnu-gdb-only/build-gdb-newlib/stamp: \
 		--disable-gprof \
 		CFLAGS="-O2" \
 		CXXFLAGS="-O2" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-gnu-gdb-only/build-gdb-py-newlib/stamp: \
@@ -839,8 +840,8 @@ $(OBJDIR)/%/build/riscv-gnu-gdb-only/build-gdb-py-newlib/stamp: \
 		--disable-gprof \
 		CFLAGS="-O2" \
 		CXXFLAGS="-O2" &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 # OpenOCD requires a GDB that's been build with expat support so it can read
@@ -852,8 +853,8 @@ $(OBJDIR)/%/stamps/expat-gdb/install.stamp: \
 	$(eval $@_INSTALL := $(patsubst %/stamps/expat-gdb/install.stamp,%/install/riscv64-unknown-elf-gdb-$(RGDB_VERSION)-$($@_TARGET),$@))
 	mkdir -p $($@_BUILD)
 	cd $($@_BUILD); ./configure --prefix=$(abspath $($@_INSTALL)) $($($@_TARGET)-expat-configure) &>make-configure.log
-	$(MAKE) -C $($@_BUILD) buildlib &>$($@_BUILD)/make-buildlib.log
-	$(MAKE) -C $($@_BUILD) installlib &>$($@_BUILD)/make-installlib.log
+	$(MAKE) -j $(FORKS) -C $($@_BUILD) buildlib &>$($@_BUILD)/make-buildlib.log
+	$(MAKE) -j $(FORKS) -C $($@_BUILD) installlib &>$($@_BUILD)/make-installlib.log
 	mkdir -p $(dir $@)
 	date > $@
 
@@ -942,8 +943,8 @@ $(OBJDIR)/%/build/riscv-openocd/libusb/stamp: \
 		--disable-udev \
 		--enable-static \
 		$($($@_TARGET)-ousb-configure) &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-openocd/libusb-compat/stamp: \
@@ -956,8 +957,8 @@ $(OBJDIR)/%/build/riscv-openocd/libusb-compat/stamp: \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static \
 		$($($@_TARGET)-ousb-configure) &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-openocd/libftdi/stamp: \
@@ -968,8 +969,8 @@ $(OBJDIR)/%/build/riscv-openocd/libftdi/stamp: \
 	cd $(dir $@) && $($($@_TARGET)-odeps-vars) cmake \
 		-DCMAKE_INSTALL_PREFIX:PATH=$(abspath $($@_INSTALL)) \
 		$($($@_TARGET)-oftdi-configure) . &>make-cmake.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-openocd/riscv-openocd/stamp: \
@@ -989,9 +990,9 @@ $(OBJDIR)/%/build/riscv-openocd/riscv-openocd/stamp: \
 		--disable-werror \
 		--enable-ftdi \
 		$($($@_TARGET)-rocd-configure) &>make-configure.log
-	$(MAKE) $($($@_TARGET)-rocd-vars) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) $($($@_TARGET)-rocd-vars) -C $(dir $@) pdf html &>$(dir $@)/make-build-doc.log
-	$(MAKE) $($($@_TARGET)-rocd-vars) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) $($($@_TARGET)-rocd-vars) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) $($($@_TARGET)-rocd-vars) -C $(dir $@) pdf html &>$(dir $@)/make-build-doc.log
+	$(MAKE) -j $(FORKS) $($($@_TARGET)-rocd-vars) -C $(dir $@) install install-pdf install-html &>$(dir $@)/make-install.log
 	date > $@
 
 # The QEMU builds go here
@@ -1097,14 +1098,14 @@ $(OBJ_NATIVE)/build/riscv-qemu/zlib/stamp: \
 	cd $(dir $@) && $($(NATIVE)-deps-vars) ./configure \
 		--prefix=$(abspath $(OBJ_NATIVE)/install/riscv-qemu-$(RQEMU_VERSION)-$(NATIVE)) \
 		$($(NATIVE)-zlib-configure) &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJ_WIN64)/build/riscv-qemu/zlib/stamp: \
 		$(OBJ_WIN64)/build/riscv-qemu/stamp
-	$(MAKE) -C $(dir $@) -f win32/Makefile.gcc PREFIX=$(WIN64)- prefix=$(abspath $(OBJ_WIN64)/install/riscv-qemu-$(RQEMU_VERSION)-$(WIN64))/ &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) -f win32/Makefile.gcc SHARED_MODE=1 install DESTDIR=$(abspath $(OBJ_WIN64)/install/riscv-qemu-$(RQEMU_VERSION)-$(WIN64))/ INCLUDE_PATH=include LIBRARY_PATH=lib BINARY_PATH=bin &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) -f win32/Makefile.gcc PREFIX=$(WIN64)- prefix=$(abspath $(OBJ_WIN64)/install/riscv-qemu-$(RQEMU_VERSION)-$(WIN64))/ &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) -f win32/Makefile.gcc SHARED_MODE=1 install DESTDIR=$(abspath $(OBJ_WIN64)/install/riscv-qemu-$(RQEMU_VERSION)-$(WIN64))/ INCLUDE_PATH=include LIBRARY_PATH=lib BINARY_PATH=bin &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-qemu/libffi/stamp: \
@@ -1117,8 +1118,8 @@ $(OBJDIR)/%/build/riscv-qemu/libffi/stamp: \
 		$($($@_TARGET)-rqemu-host) \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-qemu/libiconv/stamp: \
@@ -1131,8 +1132,8 @@ $(OBJDIR)/%/build/riscv-qemu/libiconv/stamp: \
 		$($($@_TARGET)-rqemu-host) \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-qemu/gettext/stamp: \
@@ -1146,8 +1147,8 @@ $(OBJDIR)/%/build/riscv-qemu/gettext/stamp: \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static \
 		$($($@_TARGET)-gettext-configure) &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-qemu/glib/stamp: \
@@ -1176,8 +1177,8 @@ $(OBJDIR)/%/build/riscv-qemu/glib/stamp: \
 		--disable-compile-warnings \
 		--disable-installed-tests \
 		--disable-always-build-tests &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	rm -rf $(abspath $($@_INSTALL))/share/gdb
 	date > $@
 
@@ -1191,8 +1192,8 @@ $(OBJDIR)/%/build/riscv-qemu/libpng/stamp: \
 		$($($@_TARGET)-rqemu-host) \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-qemu/jpeg/stamp: \
@@ -1205,8 +1206,8 @@ $(OBJDIR)/%/build/riscv-qemu/jpeg/stamp: \
 		$($($@_TARGET)-rqemu-host) \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-qemu/pixman/stamp: \
@@ -1222,8 +1223,8 @@ $(OBJDIR)/%/build/riscv-qemu/pixman/stamp: \
 		--enable-static \
 		--with-gnu-ld \
 		--disable-static-testprogs &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/riscv-qemu/riscv-qemu/stamp: \
@@ -1245,7 +1246,7 @@ $(OBJDIR)/%/build/riscv-qemu/riscv-qemu/stamp: \
 		--disable-libusb \
 		--disable-vhost-user \
 		--disable-vhost-kernel &>make-configure.log
-	$($($@_TARGET)-rqemu-vars) $(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$($($@_TARGET)-rqemu-vars) $(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 # The XC3SPROG builds go here
@@ -1334,8 +1335,8 @@ $(OBJDIR)/%/build/xc3sprog/libusb/stamp: \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--disable-udev \
 		--enable-static &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/xc3sprog/libusb-compat/stamp: \
@@ -1347,8 +1348,8 @@ $(OBJDIR)/%/build/xc3sprog/libusb-compat/stamp: \
 		$($($@_TARGET)-xc3sp-host) \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/xc3sprog/libftdi/stamp: \
@@ -1359,8 +1360,8 @@ $(OBJDIR)/%/build/xc3sprog/libftdi/stamp: \
 	cd $(dir $@) && $($($@_TARGET)-xdeps-vars) cmake \
 		-DCMAKE_INSTALL_PREFIX:PATH=$(abspath $($@_INSTALL)) \
 		$($($@_TARGET)-xftdi-configure) . &>make-cmake.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/xc3sprog/libiconv/stamp: \
@@ -1371,8 +1372,8 @@ $(OBJDIR)/%/build/xc3sprog/libiconv/stamp: \
 		$($($@_TARGET)-xc3sp-host) \
 		--prefix=$(abspath $($@_INSTALL)) \
 		--enable-static &>make-configure.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	date > $@
 
 $(OBJDIR)/%/build/xc3sprog/xc3sprog/stamp: \
@@ -1391,8 +1392,8 @@ $(OBJDIR)/%/build/xc3sprog/xc3sprog/stamp: \
 		-DLIBFTDI_LIBRARIES=ftdi1 \
 		$($($@_TARGET)-xc3sp-configure) \
 		. &>make-cmake.log
-	$(MAKE) -C $(dir $@) &>$(dir $@)/make-build.log
-	$(MAKE) -C $(dir $@) install &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install &>$(dir $@)/make-install.log
 	rm -f $(abspath $($@_INSTALL))/bin/iconv
 	rm -f $(abspath $($@_INSTALL))/bin/iconv.exe
 	rm -rf $(abspath $($@_INSTALL))/share
@@ -1458,7 +1459,7 @@ $(OBJDIR)/%/build/trace-decoder/trace-decoder/stamp: \
 		$(OBJDIR)/%/build/trace-decoder/stamp
 	$(eval $@_TARGET := $(patsubst $(OBJDIR)/%/build/trace-decoder/trace-decoder/stamp,%,$@))
 	$(eval $@_INSTALL := $(patsubst %/build/trace-decoder/trace-decoder/stamp,%/install/trace-decoder-$(TDC_VERSION)-$($@_TARGET),$@))
-	$(MAKE) -C $(dir $@) CROSSPREFIX=$($($@_TARGET)-tdc-cross) all &>$(dir $@)/make-build.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) CROSSPREFIX=$($($@_TARGET)-tdc-cross) all &>$(dir $@)/make-build.log
 	cp $(dir $@)/Debug/dqr$($($@_TARGET)-tdc-binext) $(abspath $($@_INSTALL))
 	cp $(dir $@)/scripts/trace.tcl $(abspath $($@_INSTALL))
 	cp -R $(dir $@)/examples $(abspath $($@_INSTALL))
@@ -1531,7 +1532,7 @@ $(OBJDIR)/%/build/sdk-utilities/dtc/stamp: \
 		$(OBJDIR)/%/build/sdk-utilities/stamp
 	$(eval $@_TARGET := $(patsubst $(OBJDIR)/%/build/sdk-utilities/dtc/stamp,%,$@))
 	$(eval $@_INSTALL := $(patsubst %/build/sdk-utilities/dtc/stamp,%/install/sdk-utilities-$(SDKU_VERSION)-$($@_TARGET),$@))
-	$(MAKE) -C $(dir $@) install PREFIX=$(abspath $($@_INSTALL)) $($($@_TARGET)-dtc-configure) \
+	$(MAKE) -j $(FORKS) -C $(dir $@) install PREFIX=$(abspath $($@_INSTALL)) $($($@_TARGET)-dtc-configure) \
 		NO_PYTHON=1 NO_YAML=1 NO_VALGRIND=1 &>$(dir $@)/make-install.log
 	rm -f $(abspath $($@_INSTALL))/lib/lib*.dylib*
 	rm -f $(abspath $($@_INSTALL))/lib/lib*.so*
@@ -1542,7 +1543,7 @@ $(OBJDIR)/%/build/sdk-utilities/freedom-elf2hex/stamp: \
 		$(OBJDIR)/%/build/sdk-utilities/stamp
 	$(eval $@_TARGET := $(patsubst $(OBJDIR)/%/build/sdk-utilities/freedom-elf2hex/stamp,%,$@))
 	$(eval $@_INSTALL := $(patsubst %/build/sdk-utilities/freedom-elf2hex/stamp,%/install/sdk-utilities-$(SDKU_VERSION)-$($@_TARGET),$@))
-	$(MAKE) -C $(dir $@) install INSTALL_PATH=$(abspath $($@_INSTALL)) $($($@_TARGET)-fe2h-configure) &>$(dir $@)/make-install.log
+	$(MAKE) -j $(FORKS) -C $(dir $@) install INSTALL_PATH=$(abspath $($@_INSTALL)) $($($@_TARGET)-fe2h-configure) &>$(dir $@)/make-install.log
 	date > $@
 
 # The Python builds go here
