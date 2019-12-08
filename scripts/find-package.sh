@@ -2,11 +2,12 @@
 pkgname=$1
 optname=$2
 wdbname=$(basename `pwd`)
+deliverables_dir="deliverables"
 
 # Can the package (first arg) be found in this build directory
-if [ -f "`pwd`/bin/$pkgname" ]
+if [ -f "`pwd`/$deliverables_dir/$pkgname" ]
 then
-  echo "`pwd`/bin/$pkgname"
+  echo "`pwd`/$deliverables_dir/$pkgname"
   exit 0
 fi
 
@@ -33,9 +34,9 @@ lstname=$(ls -d *--$sfxname)
 
 for itmname in $lstname
 do
-  if [ -f "`pwd`/$itmname/bin/$pkgname" ]
+  if [ -f "`pwd`/$itmname/$deliverables_dir/$pkgname" ]
   then
-    echo "`pwd`/$itmname/bin/$pkgname"
+    echo "`pwd`/$itmname/$deliverables_dir/$pkgname"
     exit 0
   fi
 done

@@ -17,7 +17,7 @@ combo-package:
 # requires bash
 SHELL = /bin/bash
 
-BINDIR := bin
+BINDIR := deliverables
 OBJDIR := obj
 SRCDIR := src
 
@@ -28,7 +28,7 @@ WIN32  ?= i686-w64-mingw32
 WIN64  ?= x86_64-w64-mingw32
 DARWIN ?= x86_64-apple-darwin
 
-FORKS := 8
+FORKS := 1
 
 -include /etc/lsb-release
 ifneq ($(wildcard /etc/redhat-release),)
@@ -78,7 +78,7 @@ combo-package: win64-combo-package
 else ifeq ($(shell uname),Darwin)
 NATIVE ?= $(DARWIN)
 LIBTOOLIZE ?= glibtoolize
-TAR ?= gtar
+TAR ?= gnutar
 SED ?= gsed
 AWK ?= gawk
 all: darwin
